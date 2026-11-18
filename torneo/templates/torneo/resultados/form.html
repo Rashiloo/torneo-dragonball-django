@@ -1,0 +1,16 @@
+{% extends 'torneo/base.html' %}
+{% block content %}
+<div class="card shadow-sm mx-auto" style="max-width: 650px;">
+    <div class="card-header card-header-db">
+        <h5 class="mb-0">Registrar Resultado: {{ duelo.peleador_1.nombre }} vs {{ duelo.peleador_2.nombre }}</h5>
+    </div>
+    <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-success">Guardar Resultado Oficial</button>
+            <a href="{% url 'lista_duelos' %}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

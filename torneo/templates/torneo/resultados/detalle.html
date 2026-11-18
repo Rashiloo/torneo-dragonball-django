@@ -1,0 +1,20 @@
+{% extends 'torneo/base.html' %}
+{% block content %}
+<div class="card shadow-sm mx-auto" style="max-width: 600px;">
+    <div class="card-header card-header-db"><h5 class="mb-0">Acta de Resultado Oficial</h5></div>
+    <div class="card-body">
+        {% if resultado %}
+            <h4 class="text-success mb-3">🏆 Ganador: {{ resultado.ganador.nombre }} ({{ resultado.ganador.alias }})</h4>
+            <p><strong>Enfrentamiento:</strong> {{ duelo.peleador_1.nombre }} vs {{ duelo.peleador_2.nombre }}</p>
+            <p><strong>Ronda y Arena:</strong> {{ duelo.ronda }} — {{ duelo.arena }}</p>
+            <p><strong>Tipo de victoria:</strong> {{ resultado.get_tipo_victoria_display }}</p>
+            <p><strong>Duración del combate:</strong> {{ resultado.duracion_minutos }} minutos</p>
+            <p><strong>Estado final:</strong> {{ duelo.get_estado_display }}</p>
+            <p><strong>Observaciones:</strong> {{ resultado.observaciones|default:"Sin observaciones adicionales." }}</p>
+        {% else %}
+            <p class="text-muted">Este duelo aún no tiene un resultado registrado.</p>
+        {% endif %}
+        <a href="{% url 'lista_duelos' %}" class="btn btn-secondary mt-2">Volver a Duelos</a>
+    </div>
+</div>
+{% endblock %}
