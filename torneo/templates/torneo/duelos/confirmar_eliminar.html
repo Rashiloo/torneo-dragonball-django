@@ -1,0 +1,15 @@
+<!-- torneo/templates/torneo/duelos/confirmar_eliminar.html -->
+{% extends 'torneo/base.html' %}
+{% block content %}
+<div class="card shadow-sm mx-auto border-danger" style="max-width: 500px;">
+    <div class="card-header bg-danger text-white"><h5 class="mb-0">Eliminar Duelo</h5></div>
+    <div class="card-body">
+        <p>¿Confirmas la eliminación del duelo <strong>{{ duelo }}</strong>?</p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Eliminar</button>
+            <a href="{% url 'lista_duelos' %}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

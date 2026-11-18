@@ -1,0 +1,20 @@
+<!-- torneo/templates/torneo/peleadores/detalle.html -->
+{% extends 'torneo/base.html' %}
+{% block content %}
+<div class="card shadow-sm mx-auto" style="max-width: 650px;">
+    <div class="card-header card-header-db"><h4 class="mb-0">{{ peleador.nombre }} — "{{ peleador.alias }}"</h4></div>
+    <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Universo / Planeta:</strong> {{ peleador.universo_planeta }}</li>
+            <li class="list-group-item"><strong>Raza o especie:</strong> {{ peleador.raza }}</li>
+            <li class="list-group-item"><strong>Edad:</strong> {{ peleador.edad }} años</li>
+            <li class="list-group-item"><strong>Categoría de combate:</strong> {{ peleador.categoria }}</li>
+            <li class="list-group-item"><strong>Nivel de experiencia:</strong> {{ peleador.nivel_experiencia }}</li>
+            <li class="list-group-item"><strong>Estado:</strong> {{ peleador.get_estado_display }}</li>
+        </ul>
+        <div class="mt-3">
+            <a href="{% url 'lista_peleadores' %}" class="btn btn-secondary">Volver al listado</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
