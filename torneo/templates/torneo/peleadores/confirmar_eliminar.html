@@ -1,0 +1,15 @@
+<!-- torneo/templates/torneo/peleadores/confirmar_eliminar.html -->
+{% extends 'torneo/base.html' %}
+{% block content %}
+<div class="card shadow-sm mx-auto border-danger" style="max-width: 500px;">
+    <div class="card-header bg-danger text-white"><h5 class="mb-0">Confirmar Eliminación</h5></div>
+    <div class="card-body">
+        <p>¿Estás seguro de eliminar al peleador <strong>{{ peleador.nombre }}</strong>?</p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+            <a href="{% url 'lista_peleadores' %}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
