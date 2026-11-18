@@ -23,4 +23,9 @@ urlpatterns = [
     path('duelos/nuevo/', views.crear_duelo, name='crear_duelo'),
     path('duelos/<int:pk>/editar/', views.editar_duelo, name='editar_duelo'),
     path('duelos/<int:pk>/eliminar/', views.eliminar_duelo, name='eliminar_duelo'),
+
+    # Módulo 4: Resultados
+    path('resultados/', views.lista_resultados, name='lista_resultados'),
+    path('duelos/<int:duelo_id>/resultado/registrar/', views.registrar_resultado, name='registrar_resultado'),
+    path('duelos/<int:duelo_id>/resultado/', views.detalle_resultado, name='detalle_resultado'),
 ]

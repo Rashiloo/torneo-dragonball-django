@@ -121,3 +121,41 @@ def eliminar_duelo(request, pk):
         messages.success(request, "Duelo eliminado correctamente.")
         return redirect('lista_duelos')
     return render(request, 'torneo/duelos/confirmar_eliminar.html', {'duelo': duelo})
+
+# --- MÓDULO 4: RESULTADOS ---
+def lista_resultados(request):
+    resultados = Resultado.objects.select_related('duelo', 'ganador', 'duelo__peleador_1', 'duelo__peleador_2').all()
+    return render(request, 'torneo/resultados/lista.html', {'resultados': resultados})
+
+
+@login_required
+def registrar_resultado(request, duelo_id):
+    duelo = get_object_or_404(Duelo, pk=duelo_id)
+
+    if duelo.estado == 'cancelado':
+        messages.error(request, "Operación denegada: No se puede registrar resultado para un duelo cancelado.")
+        return redirect('lista_duelos')
+
+    if hasattr(duelo, 'resultado'):
+        messages.warning(request, "Este enfrentamiento ya cuenta con un resultado registrado.")
+        return redirect('detalle_resultado', duelo_id=duelo.id)
+
+    if request.method == 'POST':
+        form = ResultadoForm(request.POST, duelo=duelo)
+        if form.is_valid():
+            resultado = form.save(commit=False)
+            resultado.duelo = duelo
+            resultado.save()
+            messages.success(request, f"Resultado guardado. ¡Ganador: {resultado.ganador.nombre}!")
+            return redirect('detalle_resultado', duelo_id=duelo.id)
+        messages.error(request, "Error al validar el resultado.")
+    else:
+        form = ResultadoForm(duelo=duelo)
+
+    return render(request, 'torneo/resultados/form.html', {'form': form, 'duelo': duelo})
+
+
+def detalle_resultado(request, duelo_id):
+    duelo = get_object_or_404(Duelo, pk=duelo_id)
+    resultado = getattr(duelo, 'resultado', None)
+    return render(request, 'torneo/resultados/detalle.html', {'duelo': duelo, 'resultado': resultado})

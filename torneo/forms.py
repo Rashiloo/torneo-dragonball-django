@@ -72,3 +72,36 @@ class DueloForm(forms.ModelForm):
         if p1 and p2 and p1 == p2:
             raise forms.ValidationError("Debes seleccionar dos peleadores distintos para el duelo.")
         return cleaned_data
+
+class ResultadoForm(forms.ModelForm):
+    class Meta:
+        model = Resultado
+        fields = ['ganador', 'tipo_victoria', 'duracion_minutos', 'observaciones', 'estado_final']
+        widgets = {
+            'ganador': forms.Select(attrs={'class': 'form-select'}),
+            'tipo_victoria': forms.Select(attrs={'class': 'form-select'}),
+            'duracion_minutos': forms.NumberInput(attrs={'class': 'form-control', 'min': 1}),
+            'observaciones': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            'estado_final': forms.Select(
+                choices=[('finalizado', 'Finalizado')],
+                attrs={'class': 'form-select'}
+            ),
+        }
+
+    def __init__(self, *args, duelo=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.duelo = duelo
+        if duelo:
+            self.fields['ganador'].queryset = Peleador.objects.filter(
+                id__in=[duelo.peleador_1.id, duelo.peleador_2.id]
+            )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        ganador = cleaned_data.get('ganador')
+        if self.duelo:
+            if self.duelo.estado == 'cancelado':
+                raise forms.ValidationError("No se puede registrar resultado para un duelo cancelado.")
+            if ganador and ganador not in [self.duelo.peleador_1, self.duelo.peleador_2]:
+                raise forms.ValidationError("El ganador debe ser uno de los dos peleadores del duelo.")
+        return cleaned_data
