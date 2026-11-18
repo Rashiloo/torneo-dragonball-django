@@ -1,7 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import RegistroUsuarioForm
+from .forms import RegistroUsuarioForm, PeleadorForm, DueloForm
+from .models import Peleador, Duelo
 
 
 # --- MÓDULO 1: AUTENTICACIÓN ---
@@ -19,6 +21,8 @@ def registro_usuario(request):
     else:
         form = RegistroUsuarioForm()
     return render(request, 'torneo/registro.html', {'form': form})
+
+
 # --- MÓDULO 2: PELEADORES (CRUD) ---
 def lista_peleadores(request):
     peleadores = Peleador.objects.all()
@@ -117,4 +121,3 @@ def eliminar_duelo(request, pk):
         messages.success(request, "Duelo eliminado correctamente.")
         return redirect('lista_duelos')
     return render(request, 'torneo/duelos/confirmar_eliminar.html', {'duelo': duelo})
-

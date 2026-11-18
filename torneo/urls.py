@@ -1,4 +1,3 @@
-# torneo/urls.py
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views
@@ -12,8 +11,7 @@ urlpatterns = [
         authentication_form=LoginUsuarioForm
     ), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-
- # Módulo 2: Peleadores
+    # Módulo 2: Peleadores
     path('', views.lista_peleadores, name='lista_peleadores'),
     path('peleadores/<int:pk>/', views.detalle_peleador, name='detalle_peleador'),
     path('peleadores/nuevo/', views.crear_peleador, name='crear_peleador'),
