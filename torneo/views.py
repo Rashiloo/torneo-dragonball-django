@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import RegistroUsuarioForm, PeleadorForm, DueloForm
-from .models import Peleador, Duelo
+from .forms import RegistroUsuarioForm, PeleadorForm, DueloForm, ResultadoForm
+from .models import Peleador, Duelo, Resultado 
 
 
 # --- MÓDULO 1: AUTENTICACIÓN ---
