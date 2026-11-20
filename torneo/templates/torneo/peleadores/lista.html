@@ -1,50 +1,63 @@
-<!-- torneo/templates/torneo/peleadores/lista.html -->
 {% extends 'torneo/base.html' %}
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h2>Peleadores Inscritos</h2>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">Peleadores Inscritos</h2>
     {% if user.is_authenticated %}
         <a href="{% url 'crear_peleador' %}" class="btn btn-db">+ Registrar Peleador</a>
     {% endif %}
 </div>
-<div class="table-responsive bg-white rounded shadow-sm p-3">
-    <table class="table table-hover align-middle mb-0">
-        <thead class="table-dark">
-            <tr>
-                <th>Nombre</th>
-                <th>Alias</th>
-                <th>Raza</th>
-                <th>Universo / Planeta</th>
-                <th>Categoría</th>
-                <th>Estado</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for p in peleadores %}
-            <tr>
-                <td class="fw-bold">{{ p.nombre }}</td>
-                <td>{{ p.alias }}</td>
-                <td>{{ p.raza }}</td>
-                <td>{{ p.universo_planeta }}</td>
-                <td>{{ p.categoria }}</td>
-                <td>
-                    <span class="badge {% if p.estado == 'activo' %}bg-success{% else %}bg-secondary{% endif %}">
-                        {{ p.get_estado_display }}
-                    </span>
-                </td>
-                <td>
-                    <a href="{% url 'detalle_peleador' p.pk %}" class="btn btn-sm btn-info text-white">Ver</a>
-                    {% if user.is_authenticated %}
-                        <a href="{% url 'editar_peleador' p.pk %}" class="btn btn-sm btn-warning">Editar</a>
-                        <a href="{% url 'eliminar_peleador' p.pk %}" class="btn btn-sm btn-danger">Eliminar</a>
+
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    {% for p in peleadores %}
+    <div class="col">
+        <div class="card h-100 shadow-sm border-0 overflow-hidden">
+            {% if p.foto %}
+                <div class="bg-light d-flex align-items-center justify-content-center p-2" style="height: 270px;">
+                    <img src="{{ p.foto }}" alt="{{ p.nombre }}"
+                         style="max-height: 100%; max-width: 100%; object-fit: contain;">
+                </div>
+            {% else %}
+                <div class="bg-dark text-warning d-flex flex-column justify-content-center align-items-center"
+                     style="height: 270px;">
+                    <span style="font-size: 3.5rem;">🐉</span>
+                    <small class="text-light mt-1">Sin fotografía</small>
+                </div>
+            {% endif %}
+
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-1">
+                    <h5 class="card-title fw-bold mb-0">{{ p.nombre }}</h5>
+                    {% if p.get_estado_display == 'Activo' %}
+                        <span class="badge bg-success">{{ p.get_estado_display }}</span>
+                    {% else %}
+                        <span class="badge bg-secondary">{{ p.get_estado_display }}</span>
                     {% endif %}
-                </td>
-            </tr>
-            {% empty %}
-            <tr><td colspan="7" class="text-center text-muted">No hay peleadores registrados.</td></tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                </div>
+                <p class="text-muted small mb-3"><em>"{{ p.alias }}"</em></p>
+
+                <ul class="list-unstyled small mb-0">
+                    <li class="mb-1"><strong>Raza:</strong> {{ p.raza }}</li>
+                    <li class="mb-1"><strong>Origen:</strong> {{ p.universo_planeta }}</li>
+                    <li class="mb-1"><strong>Categoría:</strong> {{ p.categoria }}</li>
+                    <li><strong>Nivel:</strong> {{ p.nivel_experiencia }}</li>
+                </ul>
+            </div>
+
+            <div class="card-footer bg-white border-top-0 pb-3 pt-0 d-flex gap-2">
+                <a href="{% url 'detalle_peleador' p.pk %}" class="btn btn-info btn-sm text-white flex-grow-1">Ver ficha</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'editar_peleador' p.pk %}" class="btn btn-warning btn-sm">Editar</a>
+                    <a href="{% url 'eliminar_peleador' p.pk %}" class="btn btn-danger btn-sm">Eliminar</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <div class="alert alert-secondary text-center">
+            No hay peleadores registrados en el torneo todavía.
+        </div>
+    </div>
+    {% endfor %}
 </div>
 {% endblock %}

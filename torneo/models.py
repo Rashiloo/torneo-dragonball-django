@@ -49,6 +49,7 @@ class Peleador(models.Model):
     categoria = models.CharField(max_length=100, verbose_name="Categoría de combate")
     nivel_experiencia = models.CharField(max_length=100, verbose_name="Nivel de experiencia")
     estado = models.CharField(max_length=10, choices=ESTADO_CHOICES, default='activo', verbose_name="Estado de participación")
+    foto = models.URLField(max_length=500, blank=True, null=True, verbose_name="URL de la foto del personaje")
 
     class Meta:
         ordering = ['nombre']

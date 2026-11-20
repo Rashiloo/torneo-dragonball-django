@@ -48,6 +48,7 @@ class PeleadorForm(forms.ModelForm):
             'categoria': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej. Peso Pesado / Dioses'}),
             'nivel_experiencia': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej. Maestro / Ultra Instinto'}),
             'estado': forms.Select(attrs={'class': 'form-select'}),
+            'foto': forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'https://ejemplo.com/imagen.jpg'}),
         }
 
 

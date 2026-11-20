@@ -2,8 +2,13 @@
 {% extends 'torneo/base.html' %}
 {% block content %}
 <div class="card shadow-sm mx-auto" style="max-width: 650px;">
-    <div class="card-header card-header-db"><h4 class="mb-0">{{ peleador.nombre }} — "{{ peleador.alias }}"</h4></div>
+    <div class="card-header card-header-db"><h4 class="mb-0">{{ peleador.nombre }} - "{{ peleador.alias }}"</h4></div>
     <div class="card-body">
+        {% if peleador.foto %}
+            <img src="{{ peleador.foto }}" alt="{{ peleador.nombre }}"
+                 class="img-fluid rounded mb-3 d-block mx-auto" style="max-height: 280px; object-fit: cover;">
+        {% endif %}
+
         <ul class="list-group list-group-flush">
             <li class="list-group-item"><strong>Universo / Planeta:</strong> {{ peleador.universo_planeta }}</li>
             <li class="list-group-item"><strong>Raza o especie:</strong> {{ peleador.raza }}</li>
